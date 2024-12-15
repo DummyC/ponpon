@@ -1,8 +1,15 @@
 <x-layout>
-    <h1 class="title">Log in to your existing account</h1>
+    <h1 class="mx-auto max-w-screen-sm title">Log in to your existing account</h1>
+
+    @if (session('status'))
+        <x-flashMsg msg="{{ session('status') }}"/>
+    @endif
 
     <div class="mx-auto max-w-screen-sm card">
-        <form action="{{ route('login') }}" method="post">
+
+
+
+        <form action="{{ route('login') }}" method="post" x-data="formSubmit" @submit.prevent="submit">
             @csrf
 
             {{-- Email Address --}}
@@ -17,7 +24,7 @@
 
             {{-- Password --}}
             <div class="mb-4">
-                <label for="password">Password</label>
+                <label for="password">Master Password</label>
                 <input type="password" name="password" class="input
                 @error('password') ring-red-500 @enderror">
                 @error('password')
@@ -26,17 +33,23 @@
             </div>
 
             {{-- Remember Checkbox --}}
-            <div class="mb-4">
-                <input type="checkbox" name="remember" id="remember">
-                <label for="remember">Remember me</label>
+            <div class="mb-4 flex justify-between items-center">
+                <div>
+                    <input type="checkbox" name="remember" id="remember">
+                    <label for="remember">Remember me</label>
+
+
+                </div>
+                <a class="text-sm text-blue-500" href="{{ route('password.request') }}">Forgot your password?</a>
             </div>
 
+
             @error('failed')
-                    <p class="error">{{ $message }}</p>
+                    <p class="error mb-4">{{ $message }}</p>
                 @enderror
 
             {{-- Submit Button --}}
-            <button class="btn">Login</button>
+            <button x-ref="btn" class="btn">Login</button>
 
         </form>
     </div>

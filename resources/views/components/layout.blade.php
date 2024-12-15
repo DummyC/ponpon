@@ -4,7 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" href="{{ asset('favicon.png') }}">
     <title>{{ env('APP_NAME') }}</title>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://kit.fontawesome.com/cb18f183cb.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script>
     @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
             @vite(['resources/css/app.css', 'resources/js/app.js'])
         @else
@@ -14,14 +18,60 @@
         @endif
 </head>
 <body class="bg-slate-100 text-slate-900">
-    <header class="bg-slate-400 shadow-lg">
+    <header class="bg-indigo-400 text-slate-100 shadow-lg">
         <nav>
-            <a href="{{ route('home') }}">Home</a>
+            @auth
+                <a href="{{ route('passwords.index') }}" class="flex items-center gap-1"><img src="{{ asset('logo.png') }}" alt="" class="size-7">PonPon</a>
+
+                @if (Auth::id() === 1)
+                    <a href="{{ route('admin.dashboard') }}">Admin Dashboard</a>
+                @endif
+
+                <div class="relative grid place-items-center" x-data="{ openAcc:false }">
+                    {{-- Dropdown menu button --}}
+                    <button @click="openAcc = !openAcc"  type="button" class="round-btn">
+                        <img src="{{ asset('user.png') }}" alt="">
+                    </button>
+
+                    {{-- Dropdown menu --}}
+                    <div x-show="openAcc" @click.outside="openAcc = false" class="bg-white shadow-lg absolute top-16 right-0 rounded-lg overflow-hidden font-light text-slate-900">
+                        <p class="username">{{ auth()->user()->username }}</p>
+
+                        <a href="{{ route('settings') }}" class="block hover:bg-slate-100 pl-4 pr-8 py-2 mb-1">Settings</a>
+
+                        <form action="{{ route('logout') }}" method="post">
+                            @csrf
+
+                            <button class="block w-full text-left hover:bg-slate-100 pl-4 pr-8 py-2">Logout</button>
+
+                        </form>
+                    </div>
+                </div>
+
+
+            @endauth
+
+            @guest
+            <a href="{{ route('landing') }}" class="flex items-center gap-1"><img src="{{ asset('logo.png') }}" alt="" class="size-7">PonPon</a>
+
+            @if (Route::currentRouteName() === 'landing')
+            <div class="gap-4 inline-flex">
+                <a href="#features">Features</a>
+
+                <a href="#testimonials">Testimonials</a>
+
+                <a href="#pricing">Pricing</a>
+
+                <a href="#team">About</a>
+            </div>
+            @endif
 
             <div class="flex items-center gap-4">
                 <a href="{{ route('login') }}">Login</a>
                 <a href="{{ route('register') }}">Register</a>
             </div>
+            @endguest
+
         </nav>
     </header>
 
@@ -29,4 +79,29 @@
         {{ $slot }}
     </main>
 </body>
+
+<script>
+        // Set form: x-data="formSubmit" @submit.prevent="submit" and button: x-ref="btn"
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('formSubmit', () => ({
+                submit() {
+                    this.$refs.btn.disabled = true;
+                    this.$refs.btn.classList.remove('bg-indigo-600', 'hover:bg-indigo-700');
+                    this.$refs.btn.classList.add('bg-indigo-400');
+                    this.$refs.btn.innerHTML =
+                        `<span class="absolute left-2 top-1/2 -translate-y-1/2 transform">
+                        <i class="fa-solid fa-spinner animate-spin"></i>
+                        </span>Please wait...`;
+
+                    this.$el.submit()
+                }
+            }))
+        })
+</script>
+
+<script>
+    var ops = document.querySelectorAll('button');
+    var clipboard = new ClipboardJS(ops);
+</script>
+
 </html>
