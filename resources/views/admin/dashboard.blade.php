@@ -75,7 +75,7 @@
                         <form action="{{ route('users.destroy', $user) }}" method="post">
                             @csrf
                             @method('DELETE')
-                            <button class="block w-full text-left hover:bg-slate-100 px-2 py-1 pr-8 text-red-500"><span><i class="fa-solid fa-trash"></i> Delete Login</span></button>
+                            <button class="block w-full text-left hover:bg-slate-100 px-2 py-1 pr-8 text-red-500"><span><i class="fa-solid fa-trash"></i> Delete User</span></button>
                         </form>
 
                     </div>
