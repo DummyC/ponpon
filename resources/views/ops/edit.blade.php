@@ -40,11 +40,17 @@
             {{-- Login Password --}}
             <div class="mb-4">
                 <label for="password">Login Password</label>
-                <input type="password" name="password" value="{{ $password->password }}" class="input
+                <label>
+                    <input type="password" id="password" name="password" value="{{ $password->password }}" class="input
                 @error('password') ring-red-500 @enderror">
+                <span onclick="let a=this.parentElement.children[0];(a.type==='password')?a.setAttribute('type','text'):a.setAttribute('type','password')" style="position: absolute;right: 70px; top: 51%;transform: translateY(-50%);cursor: pointer;"><i class="fa-solid fa-eye"></i></span>
+                <span onclick="createPassword()" style="position: absolute;right: 50px; top: 51%;transform: translateY(-50%);cursor: pointer;"><i class="fa-solid fa-arrows-rotate"></i></span>
+                <span onclick="copyPassword()" style="position: absolute;right: 90px; top: 51%;transform: translateY(-50%);cursor: pointer;"><i class="fa-solid fa-copy"></i></span>
                 @error('password')
                     <p class="error">{{ $message }}</p>
                 @enderror
+                </label>
+
             </div>
 
             {{-- Login Note --}}
@@ -62,5 +68,42 @@
 
         </form>
     </div>
+
+    <script>
+        const passwordBox = document.getElementById("password");
+        const length = 12;
+
+        const upperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        const lowerCase = "abcdefghijklmnopqrstuvwxyz";
+        const number = "0123456789";
+        const symbol = "@#$%^&*()_+~|{}[]<>/-=";
+
+        const allChars = upperCase + lowerCase + number + symbol;
+
+        function createPassword(){
+            let password = "";
+
+            password += upperCase[Math.floor(Math.random() * upperCase.length)];
+            password += lowerCase[Math.floor(Math.random() * lowerCase.length)];
+            password += number[Math.floor(Math.random() * number.length)];
+            password += symbol[Math.floor(Math.random() * symbol.length)];
+
+            while(length > password.length){
+                password += allChars[Math.floor(Math.random() * allChars.length)];
+
+            }
+
+            passwordBox.value = password;
+        }
+
+        function copyPassword() {
+
+            passwordBox.select();
+
+            navigator.clipboard.writeText(passwordBox.value);
+
+        }
+
+    </script>
 
 </x-layout>
