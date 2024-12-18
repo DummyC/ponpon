@@ -18,7 +18,7 @@
         @endif
 </head>
 <body class="bg-slate-100 text-slate-900">
-    <header class="bg-indigo-400 text-slate-100 shadow-lg">
+    <header class="bg-indigo-400 text-slate-100 shadow-lg sticky top-0 z-50">
         <nav>
             @auth
                 <a href="{{ route('passwords.index') }}" class="flex items-center gap-1"><img src="{{ asset('logo.png') }}" alt="" class="size-7">PonPon</a>
@@ -75,7 +75,7 @@
         </nav>
     </header>
 
-    <main class="py-8 px-4 mx-auto max-w-screenlg">
+    <main class="py-8 px-4 mx-auto max-w-screenlg relative">
         {{ $slot }}
     </main>
 </body>
