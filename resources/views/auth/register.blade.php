@@ -1,5 +1,6 @@
 <x-layout>
-    <h1 class="mx-auto max-w-screen-sm title">Register new account</h1>
+    <h1 class="mx-auto max-w-screen-sm title text-center">PonPon welcomes you!</h1>
+    <h2 class="mx-auto max-w-screen-sm text-center mb-4">Come join us today to protect your digital credentials!</h2>
 
     <div class="mx-auto max-w-screen-sm card">
 

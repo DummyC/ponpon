@@ -1,5 +1,6 @@
 <x-layout>
-    <h1 class="mx-auto max-w-screen-sm title">Log in to your existing account</h1>
+    <h1 class="mx-auto max-w-screen-sm title text-center">Welcome Back!</h1>
+    <h2 class="mx-auto max-w-screen-sm text-center mb-4">PonPon always have your back!</h2>
 
     @if (session('status'))
         <x-flashMsg msg="{{ session('status') }}"/>
