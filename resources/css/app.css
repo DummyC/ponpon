@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 @layer components {
+    html { scroll-behavior: smooth; }
     nav {
         @apply p-4 max-w-screen-lg mx-auto flex items-center justify-between;
     }
